@@ -27,21 +27,21 @@ class Game:
     def check_win(self, x, y):
         has_won = True
         for temp_y in range(y, y + 4): # down
-            if (temp_y + 1 > len(self.board)) or (self.board[temp_y][x] != self.get_turn()[0]):
+            if (temp_y >= len(self.board)) or (self.board[temp_y][x] != self.get_turn()[0]):
                 has_won = False
                 break
         if (has_won):
             return True
         has_won = True
         for temp_x in range(x, x - 4, -1): # left
-            if (temp_x - 1 < 0) or (self.board[y][temp_x] != self.get_turn()[0]):
+            if (temp_x < 0) or (self.board[y][temp_x] != self.get_turn()[0]):
                 has_won = False
                 break
         if (has_won):
             return True
         has_won = True
         for temp_x in range(x, x + 4): # right
-            if (temp_x + 1 > len(self.board[0])) or (self.board[y][temp_x] != self.get_turn()[0]):
+            if (temp_x >= len(self.board[0])) or (self.board[y][temp_x] != self.get_turn()[0]):
                 has_won = False
                 break
         if (has_won):
@@ -49,7 +49,7 @@ class Game:
         has_won = True
         temp_y = y
         for temp_x in range(x, x - 4, -1): # top left
-            if (temp_x - 1 < 0 or temp_y - 1 < 0) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+            if (temp_x < 0 or temp_y < 0) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
                 has_won = False
                 break
             temp_y -= 1
@@ -58,7 +58,7 @@ class Game:
         has_won = True
         temp_y = y
         for temp_x in range(x, x + 4): # top right
-            if (temp_x + 1 > len(self.board[0]) or temp_y - 1 < 0) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+            if (temp_x >= len(self.board[0]) or temp_y < 0) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
                 has_won = False
                 break
             temp_y -= 1
@@ -67,7 +67,7 @@ class Game:
         has_won = True
         temp_y = y
         for temp_x in range(x, x + 4): # bottom right
-            if (temp_x + 1 > len(self.board[0]) or temp_y + 1 > len(self.board)) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+            if (temp_x >= len(self.board[0]) or temp_y >= len(self.board)) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
                 has_won = False
                 break
             temp_y += 1
@@ -76,7 +76,7 @@ class Game:
         has_won = True
         temp_y = y
         for temp_x in range(x, x - 4, -1): # bottom left
-            if (temp_x - 1 < 0 or temp_y + 1 > len(self.board)) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+            if (temp_x < 0 or temp_y >= len(self.board)) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
                 has_won = False
                 break
             temp_y += 1

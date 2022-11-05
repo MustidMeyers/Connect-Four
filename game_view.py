@@ -82,7 +82,6 @@ class GameView:
             button["state"] = "disabled"
 
     def display_winner(self, turn):
-        print("changing label")
         self.turn_label.configure(text = f"{turn} player won!")
 
     def update_button(self, x, y):
