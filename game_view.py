@@ -32,6 +32,14 @@ def get_center_pos():
     x, y = geometry.split("+")[0].split("x")
     return int(x) // 4, int(y) // 10
 
+def get_colour_for_token(turn):
+    if turn[0] == "Y":
+        return YELLOW_BG, YELLOW_FG
+    elif turn[0] == "R":
+        return RED_BG, RED_FG
+    else:
+        return EMPTY_BG, EMPTY_FG
+
 class GameView:
     def __init__(self, game: cf.Game):
         self.game = game
@@ -73,13 +81,19 @@ class GameView:
             button.configure(cursor = "")
             button["state"] = "disabled"
 
+    def display_winner(self, turn):
+        print("changing label")
+        self.turn_label.configure(text = f"{turn} player won!")
+
     def update_button(self, x, y):
-        if self.game.get_turn()[0] == "Y":
-            self.buttons[y][x].configure(background = YELLOW_BG, foreground = YELLOW_FG)
-        elif self.game.get_turn()[0] == "R":
-            self.buttons[y][x].configure(background = RED_BG, foreground = RED_FG)
-        else:
-            self.buttons[y][x].configure(background = EMPTY_BG, foreground = EMPTY_FG)
+        bg, fg = get_colour_for_token(self.game.get_turn())
+        self.buttons[y][x].configure(background = bg, foreground = fg)
+        # if self.game.get_turn()[0] == "Y":
+        #     self.buttons[y][x].configure(background = YELLOW_BG, foreground = YELLOW_FG)
+        # elif self.game.get_turn()[0] == "R":
+        #     self.buttons[y][x].configure(background = RED_BG, foreground = RED_FG)
+        # else:
+        #     self.buttons[y][x].configure(background = EMPTY_BG, foreground = EMPTY_FG)
 
     def pressed_drop_button(self, x):
         is_okay_drop = self.game.dropped_token(x, self)

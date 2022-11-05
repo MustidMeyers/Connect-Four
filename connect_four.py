@@ -25,7 +25,64 @@ class Game:
         return self.board
 
     def check_win(self, x, y):
-        pass
+        has_won = True
+        for temp_y in range(y, y + 4): # down
+            if (temp_y + 1 > len(self.board)) or (self.board[temp_y][x] != self.get_turn()[0]):
+                has_won = False
+                break
+        if (has_won):
+            return True
+        has_won = True
+        for temp_x in range(x, x - 4, -1): # left
+            if (temp_x - 1 < 0) or (self.board[y][temp_x] != self.get_turn()[0]):
+                has_won = False
+                break
+        if (has_won):
+            return True
+        has_won = True
+        for temp_x in range(x, x + 4): # right
+            if (temp_x + 1 > len(self.board[0])) or (self.board[y][temp_x] != self.get_turn()[0]):
+                has_won = False
+                break
+        if (has_won):
+            return True
+        has_won = True
+        temp_y = y
+        for temp_x in range(x, x - 4, -1): # top left
+            if (temp_x - 1 < 0 or temp_y - 1 < 0) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+                has_won = False
+                break
+            temp_y -= 1
+        if (has_won):
+            return True
+        has_won = True
+        temp_y = y
+        for temp_x in range(x, x + 4): # top right
+            if (temp_x + 1 > len(self.board[0]) or temp_y - 1 < 0) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+                has_won = False
+                break
+            temp_y -= 1
+        if (has_won):
+            return True
+        has_won = True
+        temp_y = y
+        for temp_x in range(x, x + 4): # bottom right
+            if (temp_x + 1 > len(self.board[0]) or temp_y + 1 > len(self.board)) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+                has_won = False
+                break
+            temp_y += 1
+        if (has_won):
+            return True
+        has_won = True
+        temp_y = y
+        for temp_x in range(x, x - 4, -1): # bottom left
+            if (temp_x - 1 < 0 or temp_y + 1 > len(self.board)) or (self.board[temp_y][temp_x] != self.get_turn()[0]):
+                has_won = False
+                break
+            temp_y += 1
+        if (has_won):
+            return True
+        return False
 
     def dropped_token(self, x, game_view):
         y = 0
@@ -38,8 +95,13 @@ class Game:
         if self.board[y][x] == "E":
             self.board[y][x] = self.turn[0]
             game_view.update_button(x, y)
-            self.check_win(x, y)
-            self.toggle_turn()
+            has_won = self.check_win(x, y)
+            if has_won:
+                game_view.display_winner(self.turn)
+                game_view.disable_all_drop_buttons()
+                return False
+            else:
+                self.toggle_turn()
             return True
         return False
 
