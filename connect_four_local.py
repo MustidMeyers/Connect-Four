@@ -138,6 +138,13 @@ class Game:
                                 return True, win_check[1]
         return False, []
 
+    def check_draw(self):
+        draw = True
+        for square in self.board[0]:
+            if square == "E":
+                draw = False
+        return draw
+
     def dropped_token(self, x, game_view):
         y = 0
         running = True
@@ -155,7 +162,11 @@ class Game:
                 game_view.disable_all_drop_buttons()
                 return False
             else:
-                self.toggle_turn()
+                if self.check_draw():
+                    game_view.display_draw(self)
+                    return False
+                else:
+                    self.toggle_turn()
             return True
         return False
     

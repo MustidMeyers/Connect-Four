@@ -109,6 +109,16 @@ class GameView:
         self.spacer1.pack()
         for x, y in won_tuples:
             self.buttons[y][x].configure(background = "green")
+        self.game_over_buttons(game)
+    
+    def display_draw(self, game):
+        self.turn_label.configure(text = "Game is a draw!")
+        self.drop_canvas.pack_forget()
+        self.spacer1.pack_forget()
+        self.spacer1.pack()
+        self.game_over_buttons(game)
+    
+    def game_over_buttons(self, game):
         game_over_buttons_canvas = tk.Canvas(self.main_window)
         game_over_buttons_canvas.pack()
         play_again_button = tk.Button(game_over_buttons_canvas, text = "Play again?", font = self.default_font,
